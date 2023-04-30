@@ -88,42 +88,54 @@ namespace OPCClientApp
             object serverList = kepServer.GetOPCServers(ipHostEntry.HostName.ToString());
             foreach (string item in (Array)serverList)
             {
-                this.cmbServerName.Items.Add(item);
+                if (!this.cmbServerName.Items.Contains(item))
+                {
+                    this.cmbServerName.Items.Add(item);
+                }
             }
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
         {   
-            // connect the selected OPC server
-            try
+            if (this.btnConnect.Text == "Connect")
             {
-                kepServer.Connect(this.cmbServerName.Text.Trim(), this.cmbServerNode.Text.Trim());
-            }
-            catch (Exception ex)
-            {
+                // connect the selected OPC server
+                try
+                {
+                    kepServer.Connect(this.cmbServerName.Text.Trim(), this.cmbServerNode.Text.Trim());
+                }
+                catch (Exception ex)
+                {
 
-                MessageBox.Show(ex.Message, "Connection Failed");
-            }
+                    MessageBox.Show(ex.Message, "Connection Failed");
+                }
+                this.btnConnect.Text = "Disconnect";
 
-            // assign values to kepGroups
-            kepGroups = kepServer.OPCGroups;
-            kepGroups.DefaultGroupDeadband = 0;
-            kepGroups.DefaultGroupIsActive = true;
-            kepGroup = kepGroups.Add("Group1");
-            kepGroup.IsActive = true;
-            kepGroup.IsSubscribed = true;
-            kepGroup.UpdateRate = 250;
-            kepGroup.AsyncReadComplete += kepGroupAsyncReadComplete;
+                // assign values to kepGroups
+                kepGroups = kepServer.OPCGroups;
+                kepGroups.DefaultGroupDeadband = 0;
+                kepGroups.DefaultGroupIsActive = true;
+                kepGroup = kepGroups.Add("Group1");
+                kepGroup.IsActive = true;
+                kepGroup.IsSubscribed = true;
+                kepGroup.UpdateRate = 250;
+                kepGroup.AsyncReadComplete += kepGroupAsyncReadComplete;
 
-            kepBrowser = kepServer.CreateBrowser();
-            kepBrowser.ShowBranches();
-            kepBrowser.ShowLeafs(true);
+                kepBrowser = kepServer.CreateBrowser();
+                kepBrowser.ShowBranches();
+                kepBrowser.ShowLeafs(true);
 
-            foreach (object item in kepBrowser)
-            {
-                if (!this.cmbServerName.Items.Contains(item))
+                foreach (object item in kepBrowser)
                 {
                     this.lstItems.Items.Add(item.ToString());
+                }
+            }
+            else
+            {
+                if (kepServer != null)
+                {
+                    kepServer.Disconnect();
+                    this.btnConnect.Text = "Connect";
                 }
             }
         }
@@ -136,7 +148,7 @@ namespace OPCClientApp
                 if (value != null)
                 {
                     this.opcList[i-1].Value = value.ToString();
-                    this.opcList[i-1].Time = (DateTime)TimeStamps.GetValue(i);
+                    this.opcList[i-1].Time = ((DateTime)TimeStamps.GetValue(i)).AddHours(8).ToLongTimeString();
                 }
             }
             this.dgvData.DataSource = null;
@@ -178,6 +190,19 @@ namespace OPCClientApp
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            this.lblCurrentTime.Text = "Current Time: " + DateTime.Now.ToShortTimeString();
+            if (kepServer!=null)
+            {
+                if (kepServer.ServerState == 1)
+                {
+                    this.lblStatus.Text = "Connected";
+                }
+                else
+                {
+                    this.lblStatus.Text = "Disconnected";
+                }
+            }
+
             if (this.opcList.Count>0)
             {
                 kepGroup.AsyncRead(this.opcList.Count, ref readServerHandles, out readErrors, readTransID, out readCancelID);
@@ -212,5 +237,6 @@ namespace OPCClientApp
                 }
             }
         }
+
     }
 }

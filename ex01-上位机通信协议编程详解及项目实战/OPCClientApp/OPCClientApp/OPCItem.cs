@@ -19,6 +19,6 @@ namespace OPCClientApp
         /// <summary>
         /// OPCItem timestamp
         /// </summary>
-        public DateTime Time { get; set; }
+        public string Time { get; set; }
     }
 }
