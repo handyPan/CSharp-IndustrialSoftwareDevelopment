@@ -135,6 +135,7 @@ namespace OPCClientApp
                 if (kepServer != null)
                 {
                     kepServer.Disconnect();
+                    kepServer = null;
                     this.btnConnect.Text = "Connect";
                 }
             }
@@ -205,7 +206,10 @@ namespace OPCClientApp
 
             if (this.opcList.Count>0)
             {
-                kepGroup.AsyncRead(this.opcList.Count, ref readServerHandles, out readErrors, readTransID, out readCancelID);
+                if (kepServer!=null)
+                {
+                    kepGroup.AsyncRead(this.opcList.Count, ref readServerHandles, out readErrors, readTransID, out readCancelID);
+                }
             }
         }
 
