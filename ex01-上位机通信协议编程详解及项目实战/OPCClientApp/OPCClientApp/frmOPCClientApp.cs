@@ -47,9 +47,14 @@ namespace OPCClientApp
         Array strClientHandles;
         Array strServerHandles;
         Array readServerHandles;
+        Array writeServerHandles;
+        Array writeArrayHandles;
         Array readErrors;
+        Array writeErrors;
         int readTransID;
+        int writeTransID;
         int readCancelID;
+        int writeCancelID;
 
         private void btnRefreshList_Click(object sender, EventArgs e)
         {
@@ -176,6 +181,35 @@ namespace OPCClientApp
             if (this.opcList.Count>0)
             {
                 kepGroup.AsyncRead(this.opcList.Count, ref readServerHandles, out readErrors, readTransID, out readCancelID);
+            }
+        }
+
+        private void dgvData_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (this.dgvData.SelectedRows!=null)
+            {
+                int idx = this.dgvData.CurrentRow.Index;
+                OPCItem objItem = this.opcList[idx];
+                frmModify objFrm = new frmModify(objItem.Value);
+                DialogResult res = objFrm.ShowDialog();
+                int[] serverHandle = new int[] { 0, Convert.ToInt32(strServerHandles.GetValue(idx + 1)) };
+                object[] values = new object[2];
+                string[] modifyResult;
+                writeServerHandles = (Array)serverHandle;
+                if (res == DialogResult.OK)
+                {
+                    modifyResult = objFrm.Tag.ToString().Split('|');
+                    values[1] = modifyResult[0];
+                    writeArrayHandles = (Array)values;
+                    if (modifyResult[1]=="1")
+                    {
+                        kepGroup.AsyncWrite(1, writeServerHandles, writeArrayHandles, out writeErrors, writeTransID, out writeCancelID);
+                    }
+                    else
+                    {
+                        kepGroup.SyncWrite(1, writeServerHandles, writeArrayHandles, out writeErrors);
+                    }
+                }
             }
         }
     }

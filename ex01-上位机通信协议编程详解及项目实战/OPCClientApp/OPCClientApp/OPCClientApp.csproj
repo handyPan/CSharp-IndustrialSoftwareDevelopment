@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmModify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmModify.Designer.cs">
+      <DependentUpon>frmModify.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmOPCClientApp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -53,6 +59,9 @@
     <Compile Include="OPCItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmModify.resx">
+      <DependentUpon>frmModify.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmOPCClientApp.resx">
       <DependentUpon>frmOPCClientApp.cs</DependentUpon>
     </EmbeddedResource>
