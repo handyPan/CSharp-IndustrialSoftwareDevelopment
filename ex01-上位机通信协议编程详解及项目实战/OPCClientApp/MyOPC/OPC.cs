@@ -10,12 +10,12 @@ namespace MyOPC
     public class OPC
     {
         // define OPC server, groups, group, items, browser
-        OPCServer kepServer;
+        OPCServer kepServer = new OPCServer();
         OPCGroups kepGroups;
         OPCGroup kepGroup;
         OPCItems kepItems;
         // define OPC variables
-        List<MyOPCItem> opcList = new List<MyOPCItem>();
+        public List<MyOPCItem> opcList = new List<MyOPCItem>();
         List<int> serverHandles = new List<int>();
         List<int> clientHandles = new List<int>();
         List<string> tempIDList = new List<string>();
@@ -33,12 +33,12 @@ namespace MyOPC
         int readTransID;
         int writeTransID;
         int readCancelID;
-        int writeCancelID;  
+        int writeCancelID;
 
-        public void Connect()
+        public void Connect(string serverName, string serverNode)
         {
-            kepServer.Connect("KEPware.KEPServerEx.V4", "server02");
-
+            // kepServer.Connect("KEPware.KEPServerEx.V4", "DESKTOP-18047CQ");
+            kepServer.Connect(serverName, serverNode);
             // assign values to kepGroups
             kepGroups = kepServer.OPCGroups;
             kepGroups.DefaultGroupDeadband = 0;
