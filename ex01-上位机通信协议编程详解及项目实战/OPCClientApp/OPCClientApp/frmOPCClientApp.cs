@@ -125,13 +125,13 @@ namespace OPCClientApp
 
         private void kepGroupAsyncReadComplete(int TransactionID, int NumItems, ref Array ClientHandles, ref Array ItemValues, ref Array Qualities, ref Array TimeStamps, ref Array Errors)
         {
-            for (int i =1;i < NumItems; i++)
+            for (int i =1;i <= NumItems; i++)
             {
                 object value = ItemValues.GetValue(i);
                 if (value != null)
                 {
-                    this.opcList[i].Value = value.ToString();
-                    this.opcList[i].Time = (DateTime)TimeStamps.GetValue(i);
+                    this.opcList[i-1].Value = value.ToString();
+                    this.opcList[i-1].Time = (DateTime)TimeStamps.GetValue(i);
                 }
             }
             this.dgvData.DataSource = null;
@@ -159,6 +159,7 @@ namespace OPCClientApp
             }
             strTempIDs = (Array)tempIDList.ToArray();
             strClientHandles = (Array)clientHandles.ToArray();
+            kepItems = kepGroup.OPCItems;
             // add tags for kep items
             kepItems.AddItems(this.opcList.Count, ref strTempIDs, ref strClientHandles, out strServerHandles, out iErrors);
             serverHandles.Clear();

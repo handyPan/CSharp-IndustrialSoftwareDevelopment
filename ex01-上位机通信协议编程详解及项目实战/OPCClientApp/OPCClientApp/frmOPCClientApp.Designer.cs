@@ -37,10 +37,10 @@
             this.btnConnect = new System.Windows.Forms.Button();
             this.lstItems = new System.Windows.Forms.ListBox();
             this.dgvData = new System.Windows.Forms.DataGridView();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.Tag = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -123,26 +123,29 @@
             this.dgvData.Size = new System.Drawing.Size(437, 150);
             this.dgvData.TabIndex = 4;
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Tag
             // 
+            this.Tag.DataPropertyName = "Tag";
             this.Tag.HeaderText = "Tag";
             this.Tag.Name = "Tag";
             this.Tag.Width = 150;
             // 
             // Value
             // 
+            this.Value.DataPropertyName = "Value";
             this.Value.HeaderText = "Value";
             this.Value.Name = "Value";
             // 
             // Time
             // 
             this.Time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Time.DataPropertyName = "Time";
             this.Time.HeaderText = "Time";
             this.Time.Name = "Time";
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // frmOPCClientApp
             // 
@@ -176,10 +179,10 @@
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.ListBox lstItems;
         private System.Windows.Forms.DataGridView dgvData;
+        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Tag;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
-        private System.Windows.Forms.Timer timer1;
     }
 }
 
