@@ -24,6 +24,9 @@ namespace OPCClientApp
         private void frmOPCClientApp_Load(object sender, EventArgs e)
         {
             this.btnRefreshList_Click(null, null);
+            this.timer1.Interval = 1000;
+            this.timer1.Enabled = true;
+            this.dgvData.AutoGenerateColumns = false;
         }
 
         // define OPC server, groups, group, items, browser
@@ -32,6 +35,21 @@ namespace OPCClientApp
         OPCGroup kepGroup;
         OPCItems kepItems;
         OPCBrowser kepBrowser;
+        // define OPC variables
+        List<OPCItem> opcList = new List<OPCItem>();
+        List<int> serverHandles = new List<int>();
+        List<int> clientHandles = new List<int>();
+        List<string> tempIDList = new List<string>();
+        // define returned OPC tag errors
+        Array iErrors;
+        // define ids of OPC tags to add
+        Array strTempIDs;
+        Array strClientHandles;
+        Array strServerHandles;
+        Array readServerHandles;
+        Array readErrors;
+        int readTransID;
+        int readCancelID;
 
         private void btnRefreshList_Click(object sender, EventArgs e)
         {
@@ -98,13 +116,66 @@ namespace OPCClientApp
 
             foreach (object item in kepBrowser)
             {
-                this.lstItems.Items.Add(item.ToString());
+                if (!this.cmbServerName.Items.Contains(item))
+                {
+                    this.lstItems.Items.Add(item.ToString());
+                }
             }
         }
 
         private void kepGroupAsyncReadComplete(int TransactionID, int NumItems, ref Array ClientHandles, ref Array ItemValues, ref Array Qualities, ref Array TimeStamps, ref Array Errors)
         {
-            throw new NotImplementedException();
+            for (int i =1;i < NumItems; i++)
+            {
+                object value = ItemValues.GetValue(i);
+                if (value != null)
+                {
+                    this.opcList[i].Value = value.ToString();
+                    this.opcList[i].Time = (DateTime)TimeStamps.GetValue(i);
+                }
+            }
+            this.dgvData.DataSource = null;
+            this.dgvData.DataSource = this.opcList;
+        }
+
+        private void lstItems_DoubleClick(object sender, EventArgs e)
+        {
+            if (this.lstItems.SelectedItem!=null)
+            {
+                opcList.Add(new OPCItem() {
+                    Tag = this.lstItems.SelectedItem.ToString()
+                });
+            }
+
+            tempIDList.Clear();
+            clientHandles.Clear();
+            tempIDList.Add("0");
+            clientHandles.Add(0);
+            int count = this.opcList.Count;
+            for (int i=0; i<count; i++)
+            {
+                tempIDList.Add(this.opcList[i].Tag);
+                clientHandles.Add(i+1);
+            }
+            strTempIDs = (Array)tempIDList.ToArray();
+            strClientHandles = (Array)clientHandles.ToArray();
+            // add tags for kep items
+            kepItems.AddItems(this.opcList.Count, ref strTempIDs, ref strClientHandles, out strServerHandles, out iErrors);
+            serverHandles.Clear();
+            serverHandles.Add(0);
+            for (int i = 0; i < count; i++)
+            {
+                serverHandles.Add(Convert.ToInt32(strServerHandles.GetValue(i + 1)));
+            }
+            readServerHandles = (Array)serverHandles.ToArray();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (this.opcList.Count>0)
+            {
+                kepGroup.AsyncRead(this.opcList.Count, ref readServerHandles, out readErrors, readTransID, out readCancelID);
+            }
         }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbServerNode = new System.Windows.Forms.ComboBox();
             this.btnRefreshList = new System.Windows.Forms.Button();
@@ -39,6 +40,7 @@
             this.Tag = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -105,6 +107,7 @@
             this.lstItems.Name = "lstItems";
             this.lstItems.Size = new System.Drawing.Size(437, 112);
             this.lstItems.TabIndex = 3;
+            this.lstItems.DoubleClick += new System.EventHandler(this.lstItems_DoubleClick);
             // 
             // dgvData
             // 
@@ -136,6 +139,10 @@
             this.Time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Time.HeaderText = "Time";
             this.Time.Name = "Time";
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // frmOPCClientApp
             // 
@@ -172,6 +179,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Tag;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
