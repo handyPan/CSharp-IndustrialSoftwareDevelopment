@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +17,54 @@ namespace ModbusTCPApp
         public frmModbusTCPApp()
         {
             InitializeComponent();
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            if(this.btnConnect.Text=="Connect")
+            {
+                if (Connect(this.cmbIP.Text.Trim(), this.txtPort.Text.Trim()))
+                {
+                    this.lblConnectionState.Text = "Connection OK";
+                    this.lblConnectionState.ForeColor = Color.FromArgb(0, 192, 0);
+                    this.btnConnect.Text = "Disconnect";
+                }
+                else
+                {
+                    this.lblConnectionState.Text = "Connection Failed";
+                    this.lblConnectionState.ForeColor = Color.Red;
+                }
+            }
+            else
+            {
+                tcpClient.Disconnect(true);
+                this.btnConnect.Text = "Connect";
+                this.lblConnectionState.Text = "Connection State";
+                this.lblConnectionState.ForeColor = Color.Black;
+            }
+        }
+
+        Socket tcpClient;
+        /// <summary>
+        /// Set up Socket connection.
+        /// </summary>
+        /// <param name="ip">IP Address</param>
+        /// <param name="port">Port Number</param>
+        /// <returns></returns>
+        private bool Connect(string ip, string port)
+        {
+            IPEndPoint ie = new IPEndPoint(IPAddress.Parse(ip), Convert.ToInt32(port));
+            tcpClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            try
+            {
+                tcpClient.Connect(ie);
+            }
+            catch (SocketException)
+            {
+
+                return false;
+            }
+            return true;
         }
     }
 }
