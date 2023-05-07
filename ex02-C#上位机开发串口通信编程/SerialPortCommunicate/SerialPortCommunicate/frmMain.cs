@@ -16,21 +16,26 @@ namespace SerialPortCommunicate
         public frmMain()
         {
             InitializeComponent();
+
+            // disable compiler checking conflicts of threads, not recommended
+            // Control.CheckForIllegalCrossThreadCalls = false;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
             for (int i = 1; i < 20; i++)
             {
-                cmb_Port.Items.Add("COM" + i.ToString());
+                cmb_sendPort.Items.Add("COM" + i.ToString());
+                cmb_receivePort.Items.Add("COM" + i.ToString());
             }
-            cmb_Port.Text = "COM5";
+            cmb_sendPort.Text = "COM5";
+            cmb_receivePort.Text = "COM6";
             cmb_baudRate.Text = "4800";
 
             btn_closePort.Enabled = false;
 
             // event - serial port receives data, must be manually defined
-            serialPort1.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+            serPort_receive.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
         }
 
         // event - serial port receives data
@@ -39,25 +44,44 @@ namespace SerialPortCommunicate
             // receive mode is "char"
             if (!radio_receiveValue.Checked)
             {
-                string str = serialPort1.ReadExisting();
-                txt_receive.AppendText(str);
+                string str = serPort_receive.ReadExisting();
+                // txt_receive.AppendText(str);
+                if (txt_receive.InvokeRequired)
+                {
+                    Action<string> actionDelegate = delegate (string txt) { txt_receive.Text += txt; };
+                    txt_receive.Invoke(actionDelegate, str);
+                }
+                else
+                {
+                    txt_receive.Text += str;
+                }
             }
             else // receive mode is "value"
             {
                 byte data;
                 // force to convert (int) to (byte), then to uppercase 0x string
-                data = (byte)serialPort1.ReadByte();
+                data = (byte)serPort_receive.ReadByte();
                 string str = Convert.ToString(data, 16).ToUpper();
-                txt_receive.AppendText("0x" + (str.Length == 1 ? "0" + str : str) + " ");
+                str = "0x" + (str.Length == 1 ? "0" + str : str) + " ";
+                // txt_receive.AppendText("0x" + (str.Length == 1 ? "0" + str : str) + " ");
+                if (txt_receive.InvokeRequired)
+                {
+                    Action<string> actionDelegate = delegate (string txt) { txt_receive.Text += txt; };
+                    txt_receive.Invoke(actionDelegate, str);
+                }
+                else
+                {
+                    txt_receive.Text += str;
+                }
             }
-            throw new NotImplementedException();
         }
 
         private void btn_closePort_Click(object sender, EventArgs e)
         {
             try
             {
-                serialPort1.Close();
+                serPort_send.Close();
+                serPort_receive.Close();
                 btn_openPort.Enabled = true;
                 btn_closePort.Enabled = false;
 
@@ -72,7 +96,7 @@ namespace SerialPortCommunicate
         private void btn_send_Click(object sender, EventArgs e)
         {
             byte[] sendData = new byte[1];
-            if (serialPort1.IsOpen)
+            if (serPort_send.IsOpen)
             {
                 if (txt_send.Text != "")
                 {   
@@ -81,12 +105,12 @@ namespace SerialPortCommunicate
                     {
                         try
                         {
-                            serialPort1.WriteLine(txt_send.Text);
+                            serPort_send.WriteLine(txt_send.Text);
                         }
                         catch (Exception err)
                         {
-                            MessageBox.Show($"Serial port: { serialPort1.PortName } write error", "Error");
-                            serialPort1.Close();
+                            MessageBox.Show($"Serial port: { serPort_send.PortName } write error", "Error");
+                            serPort_send.Close();
                             btn_openPort.Enabled = true;
                             btn_closePort.Enabled = false;
                         }
@@ -98,13 +122,13 @@ namespace SerialPortCommunicate
                             sendData[0] = Convert.ToByte(txt_send.Text.Substring(i * 2, 2), 16);
                             // send every 2 bytes continuously
                             // if input chars are 0AC0D, only send 0A, C0
-                            serialPort1.Write(sendData, 0, 1); 
+                            serPort_send.Write(sendData, 0, 1); 
                         }
                         // the last sended is only 4 bits, convert it to a byte
                         if (txt_send.Text.Length % 2 != 0)
                         {
                             sendData[0] = Convert.ToByte(txt_send.Text.Substring(txt_send.Text.Length - 1, 1), 16);
-                            serialPort1.Write(sendData, 0, 1);
+                            serPort_send.Write(sendData, 0, 1);
                         }
                     }
                 }
@@ -115,9 +139,12 @@ namespace SerialPortCommunicate
         {
             try
             {
-                serialPort1.PortName = cmb_Port.Text;
-                serialPort1.BaudRate = Convert.ToInt32(cmb_baudRate.Text, 10);
-                serialPort1.Open();
+                serPort_send.PortName = cmb_sendPort.Text;
+                serPort_receive.PortName = cmb_receivePort.Text;
+                serPort_send.BaudRate = Convert.ToInt32(cmb_baudRate.Text, 10);
+                serPort_receive.BaudRate = Convert.ToInt32(cmb_baudRate.Text, 10);
+                serPort_send.Open();
+                serPort_receive.Open();
                 btn_openPort.Enabled = false;
                 btn_closePort.Enabled = true;
             }
