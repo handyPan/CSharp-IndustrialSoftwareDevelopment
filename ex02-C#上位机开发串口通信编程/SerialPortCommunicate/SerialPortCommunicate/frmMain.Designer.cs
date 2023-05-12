@@ -44,13 +44,14 @@
             this.btn_openPort = new System.Windows.Forms.Button();
             this.btn_closePort = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cmb_receivePort = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.txt_receive = new System.Windows.Forms.TextBox();
             this.txt_send = new System.Windows.Forms.TextBox();
             this.btn_send = new System.Windows.Forms.Button();
             this.serPort_send = new System.IO.Ports.SerialPort(this.components);
-            this.label5 = new System.Windows.Forms.Label();
-            this.cmb_receivePort = new System.Windows.Forms.ComboBox();
             this.serPort_receive = new System.IO.Ports.SerialPort(this.components);
+            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -221,6 +222,24 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Configuration";
             // 
+            // cmb_receivePort
+            // 
+            this.cmb_receivePort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_receivePort.FormattingEnabled = true;
+            this.cmb_receivePort.Location = new System.Drawing.Point(104, 61);
+            this.cmb_receivePort.Name = "cmb_receivePort";
+            this.cmb_receivePort.Size = new System.Drawing.Size(139, 20);
+            this.cmb_receivePort.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 61);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 12);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Receive Port";
+            // 
             // txt_receive
             // 
             this.txt_receive.Location = new System.Drawing.Point(292, 42);
@@ -250,29 +269,21 @@
             this.btn_send.UseVisualStyleBackColor = true;
             this.btn_send.Click += new System.EventHandler(this.btn_send_Click);
             // 
-            // label5
+            // label6
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 61);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 12);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Receive Port";
-            // 
-            // cmb_receivePort
-            // 
-            this.cmb_receivePort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_receivePort.FormattingEnabled = true;
-            this.cmb_receivePort.Location = new System.Drawing.Point(104, 61);
-            this.cmb_receivePort.Name = "cmb_receivePort";
-            this.cmb_receivePort.Size = new System.Drawing.Size(139, 20);
-            this.cmb_receivePort.TabIndex = 1;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(28, 355);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(209, 12);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "* Chinese characters are supported";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(639, 387);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btn_send);
             this.Controls.Add(this.txt_send);
             this.Controls.Add(this.txt_receive);
@@ -317,6 +328,7 @@
         private System.Windows.Forms.ComboBox cmb_receivePort;
         private System.Windows.Forms.Label label5;
         private System.IO.Ports.SerialPort serPort_receive;
+        private System.Windows.Forms.Label label6;
     }
 }
 

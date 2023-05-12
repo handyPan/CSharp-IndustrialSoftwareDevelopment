@@ -19,6 +19,8 @@ namespace SerialPortCommunicate
 
             // disable compiler checking conflicts of threads, not recommended
             // Control.CheckForIllegalCrossThreadCalls = false;
+
+
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -58,6 +60,7 @@ namespace SerialPortCommunicate
             }
             else // receive mode is "value"
             {
+                /*
                 byte data;
                 // force to convert (int) to (byte), then to uppercase 0x string
                 data = (byte)serPort_receive.ReadByte();
@@ -72,6 +75,23 @@ namespace SerialPortCommunicate
                 else
                 {
                     txt_receive.Text += str;
+                }
+                */
+                byte[] data = new byte[serPort_receive.BytesToRead];
+                serPort_receive.Read(data, 0, data.Length);
+                foreach (byte myByte in data)
+                {
+                    string str = Convert.ToString(myByte, 16).ToUpper();
+                    str = "0x" + (str.Length == 1 ? "0" + str : str) + " ";
+                    if (txt_receive.InvokeRequired)
+                    {
+                        Action<string> actionDelegate = delegate (string txt) { txt_receive.Text += txt; };
+                        txt_receive.Invoke(actionDelegate, str);
+                    }
+                    else
+                    {
+                        txt_receive.Text += str;
+                    }
                 }
             }
         }
@@ -143,6 +163,9 @@ namespace SerialPortCommunicate
                 serPort_receive.PortName = cmb_receivePort.Text;
                 serPort_send.BaudRate = Convert.ToInt32(cmb_baudRate.Text, 10);
                 serPort_receive.BaudRate = Convert.ToInt32(cmb_baudRate.Text, 10);
+                // support Chinese characters
+                serPort_send.Encoding = Encoding.GetEncoding("GB2312");
+                serPort_receive.Encoding = Encoding.GetEncoding("GB2312");
                 serPort_send.Open();
                 serPort_receive.Open();
                 btn_openPort.Enabled = false;
