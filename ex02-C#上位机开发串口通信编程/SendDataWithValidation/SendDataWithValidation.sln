@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendDataWithValidation", "SendDataWithValidation\SendDataWithValidation.csproj", "{1E5B81A2-1326-4EE5-9D0C-8181F2994D36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountDownApp", "..\CountDownApp\CountDownApp\CountDownApp.csproj", "{21E5CDC0-F220-40BC-B284-F2EDF5EA1545}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortCommunicate", "..\SerialPortCommunicate\SerialPortCommunicate\SerialPortCommunicate.csproj", "{2450EE67-E5F8-4319-BE35-5F2E4519EF15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortControl", "..\SerialPortControl\SerialPortControl\SerialPortControl.csproj", "{DFC43E98-8E11-4936-843D-FDDB76F2E408}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortSendData", "..\SerialPortSendData\SerialPortSendData\SerialPortSendData.csproj", "{D366F643-18D5-48CB-A221-8293A6B91FE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E5B81A2-1326-4EE5-9D0C-8181F2994D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E5B81A2-1326-4EE5-9D0C-8181F2994D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E5B81A2-1326-4EE5-9D0C-8181F2994D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E5B81A2-1326-4EE5-9D0C-8181F2994D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21E5CDC0-F220-40BC-B284-F2EDF5EA1545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21E5CDC0-F220-40BC-B284-F2EDF5EA1545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21E5CDC0-F220-40BC-B284-F2EDF5EA1545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21E5CDC0-F220-40BC-B284-F2EDF5EA1545}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2450EE67-E5F8-4319-BE35-5F2E4519EF15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2450EE67-E5F8-4319-BE35-5F2E4519EF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2450EE67-E5F8-4319-BE35-5F2E4519EF15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2450EE67-E5F8-4319-BE35-5F2E4519EF15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFC43E98-8E11-4936-843D-FDDB76F2E408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFC43E98-8E11-4936-843D-FDDB76F2E408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFC43E98-8E11-4936-843D-FDDB76F2E408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFC43E98-8E11-4936-843D-FDDB76F2E408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D366F643-18D5-48CB-A221-8293A6B91FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D366F643-18D5-48CB-A221-8293A6B91FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D366F643-18D5-48CB-A221-8293A6B91FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D366F643-18D5-48CB-A221-8293A6B91FE6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EEEF7F05-DE3F-41EF-9D8C-5CED8D870A50}
+	EndGlobalSection
+EndGlobal
