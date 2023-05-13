@@ -103,10 +103,10 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(7, 26);
+            this.progressBar1.Location = new System.Drawing.Point(19, 28);
             this.progressBar1.Maximum = 255;
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(311, 13);
+            this.progressBar1.Size = new System.Drawing.Size(274, 13);
             this.progressBar1.TabIndex = 0;
             // 
             // label2
@@ -129,27 +129,31 @@
             // 
             // lbl_adcResultMin
             // 
-            this.lbl_adcResultMin.Location = new System.Drawing.Point(6, 41);
+            this.lbl_adcResultMin.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_adcResultMin.Location = new System.Drawing.Point(6, 28);
             this.lbl_adcResultMin.Name = "lbl_adcResultMin";
-            this.lbl_adcResultMin.Size = new System.Drawing.Size(13, 15);
+            this.lbl_adcResultMin.Size = new System.Drawing.Size(13, 13);
             this.lbl_adcResultMin.TabIndex = 1;
             this.lbl_adcResultMin.Text = "0";
             this.lbl_adcResultMin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_adcResultMax
             // 
-            this.lbl_adcResultMax.Location = new System.Drawing.Point(293, 41);
+            this.lbl_adcResultMax.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_adcResultMax.Location = new System.Drawing.Point(293, 28);
             this.lbl_adcResultMax.Name = "lbl_adcResultMax";
-            this.lbl_adcResultMax.Size = new System.Drawing.Size(23, 15);
+            this.lbl_adcResultMax.Size = new System.Drawing.Size(23, 13);
             this.lbl_adcResultMax.TabIndex = 1;
             this.lbl_adcResultMax.Text = "255";
             this.lbl_adcResultMax.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_adcResultValue
             // 
-            this.lbl_adcResultValue.Location = new System.Drawing.Point(198, 41);
+            this.lbl_adcResultValue.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_adcResultValue.ForeColor = System.Drawing.Color.Red;
+            this.lbl_adcResultValue.Location = new System.Drawing.Point(241, 42);
             this.lbl_adcResultValue.Name = "lbl_adcResultValue";
-            this.lbl_adcResultValue.Size = new System.Drawing.Size(23, 15);
+            this.lbl_adcResultValue.Size = new System.Drawing.Size(23, 13);
             this.lbl_adcResultValue.TabIndex = 1;
             this.lbl_adcResultValue.Text = "255";
             this.lbl_adcResultValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

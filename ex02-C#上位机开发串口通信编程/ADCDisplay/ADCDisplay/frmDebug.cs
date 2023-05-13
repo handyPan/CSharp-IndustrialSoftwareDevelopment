@@ -25,7 +25,7 @@ namespace ADCDisplay
             // configure the trackbar
             tbar_adcResult.Minimum = 0;
             tbar_adcResult.Maximum = 255;
-            tbar_adcResult.Value = 5;
+            tbar_adcResult.Value = 0;
             tbar_adcResult.SmallChange = 5;
             tbar_adcResult.LargeChange = 20;
             tbar_adcResult.TickFrequency = 5;
