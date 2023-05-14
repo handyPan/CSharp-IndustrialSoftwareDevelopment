@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,6 +14,27 @@ namespace ADCDisplay
 {
     public partial class frmMain : Form
     {
+        /// <summary>
+        /// create data.ini to store the software configuration
+        /// </summary>
+        [DllImport("kernel32")]
+        private static extern long WritePrivateProfileString(
+            string section, 
+            string key, 
+            string val, 
+            string filePath);
+        [DllImport("kernel32")]
+        private static extern int GetPrivateProfileString(
+            string section,
+            string key, 
+            string def,
+            StringBuilder retVal,
+            int size,
+            string filePath);
+        string configurationFileName = System.AppDomain.CurrentDomain.BaseDirectory + "data.ini";
+        StringBuilder temp = new StringBuilder(255);    //read the variables in data.ini
+        string configuredSendPort, configuredReceivePort;
+
         frmDebug fDebug = new frmDebug();
         ProgressBar[] getProgressBarArr()
         {
@@ -38,6 +60,13 @@ namespace ADCDisplay
             InitializeComponent();
             serPort_receive.DataReceived += new SerialDataReceivedEventHandler(SerialPortDataReceived);
             this.Size = new Size(368, 136);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(frmMain_formClosing);
+        }
+
+        private void frmMain_formClosing(object sender, FormClosingEventArgs e)
+        {
+            WritePrivateProfileString("PortData", "SendPort", cmb_sendPort.Text, configurationFileName);
+            WritePrivateProfileString("PortData", "ReceivePort", cmb_receivePort.Text, configurationFileName);
         }
 
         private void SerialPortDataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -137,6 +166,11 @@ namespace ADCDisplay
             }
             searchAndAddSerialPortToComboBox(serPort_send, cmb_sendPort);
             searchAndAddSerialPortToComboBox(serPort_receive, cmb_receivePort);
+            // read the data.ini configurations
+            GetPrivateProfileString("PortData", "SendPort", "COM1", temp, 256, configurationFileName);
+            cmb_sendPort.Text = temp.ToString();
+            GetPrivateProfileString("PortData", "ReceivePort", "COM2", temp, 256, configurationFileName);
+            cmb_receivePort.Text = temp.ToString();
             fDebug.Show();
         }
 
@@ -183,8 +217,10 @@ namespace ADCDisplay
                 {
                     serPort_send.PortName = cmb_sendPort.Text;
                     serPort_send.Open();
+                    configuredSendPort = cmb_sendPort.Text;
                     serPort_receive.PortName = cmb_receivePort.Text;
                     serPort_receive.Open();
+                    configuredReceivePort = cmb_receivePort.Text;
                     cmb_sendPort.Enabled = false;
                     cmb_receivePort.Enabled = false;
                     btn_turnOnOffSerialPort.Text = "Turn OFF";
